@@ -61,8 +61,8 @@ func (s *Session) Insert(collection string, inserts interface{}) error {
 /*
 Find - Função de Select CRUD
 */
-func (s *Session) Find(collection string, query interface{}, tipo int) (interface{}, error) {
-	var result interface{}
+func (s *Session) Find(collection string, query interface{}, tipo int) ([]interface{}, error) {
+	var result []interface{}
 	var err error
 	queryFunc := s.Session.DB(configuration.Database.Database).C(collection).Find(query)
 

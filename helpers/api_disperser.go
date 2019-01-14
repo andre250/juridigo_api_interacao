@@ -13,7 +13,7 @@ Função responsável por controle de middleware
 func api(patch string, handleFunction http.HandlerFunc, auth bool) {
 
 	if auth {
-		http.HandleFunc(patch, CheckToken(handleFunction))
+		http.HandleFunc(patch, CheckToken(Cors(handleFunction)))
 	} else {
 		http.HandleFunc(patch, Cors(handleFunction))
 	}

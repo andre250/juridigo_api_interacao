@@ -10,7 +10,7 @@ import (
 Usuario - Modelo de inicialização de um usuário
 */
 type Usuario struct {
-	ID             bson.ObjectId `bson:"_id" json:"id"`
+	ID             bson.ObjectId `bson:"_id" json:"_id"`
 	Cadastrais     Cadastrais    `bson:"cadastrais" json:"cadastrais"`
 	Curriculares   Curriculares  `bson:"curriculares" json:"curriculares"`
 	DadosPagamento Pagamento     `bson:"DadosPagamento" json:"DadosPagamento"`
