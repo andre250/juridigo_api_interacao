@@ -66,9 +66,10 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		resultado = append(resultado, usuario)
 	}
 
-	byted, _ := json.Marshal(resultado)
+	lita, _ := json.Marshal(resultado)
 
-	w.Write(byted)
+	w.WriteHeader(utils.HTTPStatusCode["OK"])
+	w.Write(lita)
 }
 
 func getDegree(dist float64) float64 {
