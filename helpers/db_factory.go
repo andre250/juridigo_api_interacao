@@ -73,6 +73,19 @@ func (s *Session) Find(collection string, query interface{}, tipo int) ([]interf
 	}
 
 	if err != nil {
+		fmt.Println(err)
+		return nil, errors.New("Erro ao consultar banco")
+	}
+	return result, nil
+}
+
+/*
+FindOne - Função de Select CRUD
+*/
+func (s *Session) FindOne(collection string, query interface{}) (interface{}, error) {
+	var result interface{}
+	err := s.Session.DB(configuration.Database.Database).C(collection).Find(query).One(&result)
+	if err != nil {
 		return nil, errors.New("Erro ao consultar banco")
 	}
 	return result, nil
@@ -93,22 +106,22 @@ func (s *Session) FindSelect(collection string, query, selector interface{}) {
 /*
 Remove - Função de delete CRUD
 */
-func (s *Session) Remove(collection string, query interface{}) {
+func (s *Session) Remove(collection string, query interface{}) error {
 	err := s.Session.DB(configuration.Database.Database).C(collection).Remove(query)
 	if err != nil {
-		return
+		return err
 	}
-	return
+	return nil
 
 }
 
 /*
 Update - Função de update CRUD
 */
-func (s *Session) Update(collection string, reference, query interface{}) {
+func (s *Session) Update(collection string, reference, query interface{}) error {
 	err := s.Session.DB(configuration.Database.Database).C(collection).Update(reference, query)
 	if err != nil {
-		return
+		return err
 	}
-	return
+	return nil
 }

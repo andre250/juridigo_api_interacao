@@ -10,32 +10,10 @@ import (
 Usuario - Modelo de inicialização de um usuário
 */
 type Usuario struct {
-	ID             bson.ObjectId `bson:"_id" json:"_id"`
-	Cadastrais     Cadastrais    `bson:"cadastrais" json:"cadastrais"`
-	Curriculares   Curriculares  `bson:"curriculares" json:"curriculares"`
-	DadosPagamento Pagamento     `bson:"DadosPagamento" json:"DadosPagamento"`
-	Ranking        uint64        `bson:"ranking" json:"ranking"`
-}
-
-/*
-Registro - Controlador de registro
-*/
-type Registro struct {
-	Credenciais  Credencial   `bson:"credenciais" json:"credenciais"`
-	Cadastrais   Cadastrais   `bson:"cadastrais" json:"cadastrais"`
-	Curriculares Curriculares `bson:"curriculares" json:"curriculares"`
-	Pagamento    string       `bson:"pagamento" json:"pagamento"`
-}
-
-/*
-Credencial - Controlador de acesso
-*/
-type Credencial struct {
-	ID               string `bson:"id" json:"id"`
-	Credencial       string `bson:"credencial" json:"credencial"`
-	Tipo             int    `bson:"tipo" json:"tipo"`
-	FacebookID       string `bson:"facebookId,omitempty" json:"facebookId"`
-	RecuperacaoLogin string `bson:"recuperacaoLogin,omitempty" json:"recuperacaoLogin"`
+	ID           bson.ObjectId `bson:"_id" json:"_id"`
+	Cadastrais   Cadastrais    `bson:"cadastrais" json:"cadastrais"`
+	Curriculares Curriculares  `bson:"curriculares" json:"curriculares"`
+	Ranking      uint64        `bson:"ranking" json:"ranking"`
 }
 
 /*
