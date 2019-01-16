@@ -120,7 +120,7 @@ func createJob(w http.ResponseWriter, r *http.Request) {
 	}
 
 	job.Atribuido = false
-	job.Situacao = 1
+	job.Situacao = "iniciado"
 	job.DataAtualizado = strconv.Itoa(int(time.Now().Unix()))
 
 	if helpers.Db().Insert("trabalhos", &job) != nil {

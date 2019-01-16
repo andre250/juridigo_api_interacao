@@ -7,9 +7,9 @@ import (
 type Trabalho struct {
 	ID                 bson.ObjectId      `bson:"_id,omitempty" json:"_id,omitempty"`
 	Atribuido          bool               `bson:"atribuido,omitempty" json:"atribuido,omitempty"`
-	Situacao           uint               `bson:"situacao,omitempty" json:"situacao,omitempty"`
-	TipoTrabalho       uint               `bson:"tipoTrabalho,omitempty" json:"tipoTrabalho,omitempty"`
-	CategoriaTrabalho  uint               `bson:"categoriaTrabalho,omitempty" json:"categoriaTrabalho,omitempty"`
+	Situacao           string             `bson:"situacao,omitempty" json:"situacao,omitempty"`
+	TipoTrabalho       string             `bson:"tipoTrabalho,omitempty" json:"tipoTrabalho,omitempty"`
+	CategoriaTrabalho  string             `bson:"categoriaTrabalho,omitempty" json:"categoriaTrabalho,omitempty"`
 	UsuarioResponsável UsuarioResponsável `bson:"usuarioResponsavel,omitempty" json:"usuarioResponsavel,omitempty"`
 	UsuarioAtribuido   string             `bson:"usuarioAtribuido,omitempty" json:"usuarioAtribuido,omitempty"`
 	Descricao          string             `bson:"descricao,omitempty" json:"descricao,omitempty"`
@@ -45,7 +45,7 @@ type Localizacao struct {
 }
 
 type Audiencia struct {
-	Tipo                uint     `bson:"tipo,omitempty" json:"tipo,omitempty"`
+	Tipo                string   `bson:"tipo,omitempty" json:"tipo,omitempty"`
 	Numero              string   `bson:"numero,omitempty" json:"numero,omitempty"`
 	Partes              []string `bson:"partes,omitempty" json:"partes,omitempty"`
 	Vara                string   `bson:"vara,omitempty" json:"vara,omitempty"`
