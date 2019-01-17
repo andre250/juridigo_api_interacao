@@ -50,7 +50,7 @@ func updateProposal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(utils.HTTPStatusCode["OK"])
-	w.Write([]byte(`{"msg": "Proposta atualizado com sucesso"}`))
+	w.Write([]byte(`{"msg": "Proposta atualizada com sucesso"}`))
 }
 
 func getProposalByUser(w http.ResponseWriter, r *http.Request) {
