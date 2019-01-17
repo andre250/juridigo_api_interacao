@@ -2,6 +2,9 @@ package models
 
 import "gopkg.in/mgo.v2/bson"
 
+/*
+Proposta - modelo estrutral de proposta
+*/
 type Proposta struct {
 	ID                 bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
 	IDTrabalho         string        `bson:"idTrabalho,omitempty" json:"idTrabalho,omitempty"`

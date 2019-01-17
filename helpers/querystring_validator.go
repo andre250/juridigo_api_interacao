@@ -13,6 +13,9 @@ import (
 	"github.com/juridigo/juridigo_api_interacao/utils"
 )
 
+/*
+ValidateQueryString - Validator de processos passados por URL
+*/
 func ValidateQueryString(w http.ResponseWriter, reqParams url.Values) error {
 	var erros []models.ErroItem
 

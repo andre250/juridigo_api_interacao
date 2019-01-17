@@ -4,6 +4,9 @@ import (
 	"reflect"
 )
 
+/*
+ConfigValidator - Validador interno de configurações
+*/
 func configValidator() ([]string, bool) {
 	config := &globaConfig
 	var errList []string

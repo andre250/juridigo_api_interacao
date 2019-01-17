@@ -4,6 +4,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+/*
+Fluxo - Modelo estrutural de fluxo
+*/
 type Fluxo struct {
 	ID         bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
 	IDTrabalho string        `bson:"idTrabalho,omitempty" json:"idTrabalho,omitempty"`
@@ -11,6 +14,9 @@ type Fluxo struct {
 	Etapas     []Etapa       `bson:"etapas,omitempty" json:"etapas,omitempty"`
 }
 
+/*
+Etapa - Modelo construtor de model.fluxo
+*/
 type Etapa struct {
 	EtapaID     string         `bson:"etapaId,omitempty" json:"etapaId,omitempty"`
 	Prazo       string         `bson:"prazo,omitempty" json:"prazo,omitempty"`
@@ -21,6 +27,9 @@ type Etapa struct {
 	Localizacao Localizacao    `bson:"localizacao,omitempty" json:"localizacao,omitempty"`
 }
 
+/*
+UsuarioFluxo - Modelo Usuario model.fluxo
+*/
 type UsuarioFluxo struct {
 	ID             string `bson:"id,omitempty" json:"id,omitempty"`
 	Nome           string `bson:"nome,omitempty" json:"nome,omitempty"`

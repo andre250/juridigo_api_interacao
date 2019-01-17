@@ -4,13 +4,16 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+/*
+Trabalho - Modelo esturutrla de trabalho
+*/
 type Trabalho struct {
 	ID                 bson.ObjectId      `bson:"_id,omitempty" json:"_id,omitempty"`
 	Atribuido          bool               `bson:"atribuido,omitempty" json:"atribuido,omitempty"`
 	Situacao           string             `bson:"situacao,omitempty" json:"situacao,omitempty"`
 	TipoTrabalho       string             `bson:"tipoTrabalho,omitempty" json:"tipoTrabalho,omitempty"`
 	CategoriaTrabalho  string             `bson:"categoriaTrabalho,omitempty" json:"categoriaTrabalho,omitempty"`
-	UsuarioResponsável UsuarioResponsável `bson:"usuarioResponsavel,omitempty" json:"usuarioResponsavel,omitempty"`
+	UsuarioResponsável UsuarioResponsavel `bson:"usuarioResponsavel,omitempty" json:"usuarioResponsavel,omitempty"`
 	UsuarioAtribuido   string             `bson:"usuarioAtribuido,omitempty" json:"usuarioAtribuido,omitempty"`
 	Descricao          string             `bson:"descricao,omitempty" json:"descricao,omitempty"`
 	Rotulo             string             `bson:"rotulo,omitempty" json:"rotulo,omitempty"`
@@ -25,13 +28,19 @@ type Trabalho struct {
 	Audiencia          Audiencia          `bson:"audiencia,omitempty" json:"audiencia,omitempty"`
 }
 
-type UsuarioResponsável struct {
+/*
+UsuarioResponsavel - modelo complementar model.Trabalho
+*/
+type UsuarioResponsavel struct {
 	ID           string `bson:"id,omitempty" json:"id,omitempty"`
 	Nome         string `bson:"nome,omitempty" json:"nome,omitempty"`
 	Empresa      string `bson:"empresa,omitempty" json:"empresa,omitempty"`
 	ImagemPerfil string `bson:"imagemPerfil,omitempty" json:"imagemPerfil,omitempty"`
 }
 
+/*
+Localizacao - modelo complementar model.Trabalho
+*/
 type Localizacao struct {
 	Pais        string  `bson:"pais,omitempty" json:"pais,omitempty"`
 	Estado      string  `bson:"estado,omitempty" json:"estado,omitempty"`
@@ -44,6 +53,9 @@ type Localizacao struct {
 	Latitude    float64 `bson:"latitude" json:"latitude"`
 }
 
+/*
+Audiencia - modelo complementar model.Trabalho
+*/
 type Audiencia struct {
 	Tipo                string   `bson:"tipo,omitempty" json:"tipo,omitempty"`
 	Numero              string   `bson:"numero,omitempty" json:"numero,omitempty"`
