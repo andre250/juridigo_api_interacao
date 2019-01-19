@@ -32,6 +32,9 @@ func JobDisperser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+/*
+GetJob - Função de obtenção de serviço
+*/
 func GetJob(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.URL.String(), "trabalho/")[1]
 	if id == "" {
@@ -60,6 +63,7 @@ func GetJob(w http.ResponseWriter, r *http.Request) {
 
 func getJobByUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("usuario")
+	status := r.URL.Query().Get("status")
 
 	if id == "" {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
@@ -67,7 +71,25 @@ func getJobByUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	itens, err := helpers.Db().Find("trabalhos", bson.M{"usuarioAtribuido": id}, -1)
+	var err error
+	var itens []interface{}
+
+	if status != "" {
+		statusFilter := strings.Split(status, ",")
+
+		var statusQuery []bson.M
+		for _, status := range statusFilter {
+			statusQuery = append(statusQuery, bson.M{"status": status})
+		}
+
+		itens, err = helpers.Db().Find("trabalhos", bson.M{
+			"usuarioAtribuido": id,
+			"$or":              statusQuery,
+		}, -1)
+
+	} else {
+		itens, err = helpers.Db().Find("trabalhos", bson.M{"usuarioAtribuido": id}, -1)
+	}
 
 	if err != nil {
 		w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
@@ -122,6 +144,7 @@ func createJob(w http.ResponseWriter, r *http.Request) {
 	job.Atribuido = false
 	job.Situacao = "iniciado"
 	job.DataAtualizado = strconv.Itoa(int(time.Now().Unix()))
+	job.Status = "0"
 
 	if helpers.Db().Insert("trabalhos", &job) != nil {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])

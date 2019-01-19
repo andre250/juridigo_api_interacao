@@ -14,17 +14,17 @@ Routes - Controlador de rotas do microsserviço
 */
 func Routes() {
 	helpers.APIDisperser("/usuario",
-		models.DefaultAPI{SubPath: "", Handler: controllers.GetUser, Auth: true},
+		models.DefaultAPI{SubPath: "", Handler: controllers.GetUser, Auth: false},
 	)
 	helpers.APIDisperser("/trabalho",
-		models.DefaultAPI{SubPath: "", Handler: controllers.JobDisperser, Auth: true},
-		models.DefaultAPI{SubPath: "/", Handler: controllers.GetJob, Auth: true},
+		models.DefaultAPI{SubPath: "", Handler: controllers.JobDisperser, Auth: false},
+		models.DefaultAPI{SubPath: "/", Handler: controllers.GetJob, Auth: false},
 	)
 	helpers.APIDisperser("/proposta",
-		models.DefaultAPI{SubPath: "", Handler: controllers.ProposalDisperser, Auth: true},
+		models.DefaultAPI{SubPath: "", Handler: controllers.ProposalDisperser, Auth: false},
 	)
 	helpers.APIDisperser("/fluxo",
-		models.DefaultAPI{SubPath: "", Handler: controllers.FlowDisperser, Auth: true},
+		models.DefaultAPI{SubPath: "", Handler: controllers.FlowDisperser, Auth: false},
 	)
 }
 

@@ -17,4 +17,5 @@ type Proposta struct {
 	Prazo              string        `bson:"prazo,omitempty" json:"prazo,omitempty"`
 	Localizacao        Localizacao   `bson:"localizacao,omitempty" json:"localizacao,omitempty"`
 	Audiencia          Audiencia     `bson:"audiencia,omitempty" json:"audiencia,omitempty"`
+	Status             string        `bson:"status,omitempty" json:"status,omitempty"`
 }

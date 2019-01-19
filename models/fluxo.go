@@ -12,6 +12,7 @@ type Fluxo struct {
 	IDTrabalho string        `bson:"idTrabalho,omitempty" json:"idTrabalho,omitempty"`
 	Situacao   string        `bson:"situacao,omitempty" json:"situacao,omitempty"`
 	Etapas     []Etapa       `bson:"etapas,omitempty" json:"etapas,omitempty"`
+	Status     string        `bson:"status,omitempty" json:"status,omitempty"`
 }
 
 /*

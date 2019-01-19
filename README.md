@@ -110,14 +110,15 @@ Body:
 ```
 
 ```
-http://.../trabalho?usuario={id}
+http://.../trabalho?usuario={id}&status={status}
 
 METHOD: GET
 
 Descrição: Lista trabalhos de um usuario
 
 Parametros:
-    - id = string (id do usuario)
+    - id = string (id do usuario) *obrigatório
+    - status = array de string (status do trabalho) *opcional
 ```
 
 ```
@@ -168,7 +169,7 @@ Body:
 ```
 
 ```
-https://.../proposta?usuario={id}
+https://.../proposta?usuario={id}&status={status}
 
 METHOD: GET
 
@@ -176,6 +177,7 @@ Descrição: Busca propostas de um usuario
 
 Parametros:
     - usuario = string (id do usuario)
+    - status = array de string (status do trabalho) *opcional 
 ```
 
 ```

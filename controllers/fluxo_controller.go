@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/juridigo/juridigo_api_interacao/helpers"
 	"github.com/juridigo/juridigo_api_interacao/models"
@@ -26,15 +27,32 @@ func FlowDisperser(w http.ResponseWriter, r *http.Request) {
 
 func getFlowByJob(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("trabalho")
+	status := r.URL.Query().Get("status")
 
 	if id == "" {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
 		w.Write([]byte(`{"msg": "Identificador deve ser passado", "erro": "id"}`))
 		return
 	}
+	var err error
+	var itens []interface{}
 
-	itens, err := helpers.Db().Find("fluxo", bson.M{"idTrabalho": id}, -1)
+	if status != "" {
+		statusFilter := strings.Split(status, ",")
 
+		var statusQuery []bson.M
+		for _, status := range statusFilter {
+			statusQuery = append(statusQuery, bson.M{"status": status})
+		}
+
+		itens, err = helpers.Db().Find("propostas", bson.M{
+			"idTrabalho": id,
+			"$or":        statusQuery,
+		}, -1)
+
+	} else {
+		itens, err = helpers.Db().Find("fluxos", bson.M{"idTrabalho": id}, -1)
+	}
 	if err != nil {
 		w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
 		w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "id"}`))
@@ -57,6 +75,7 @@ func createFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	flow.Situacao = "iniciado"
+	flow.Status = "0"
 	if helpers.Db().Insert("fluxos", &flow) != nil {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
 		w.Write([]byte(lintErro(err.Error())))
@@ -85,7 +104,7 @@ func updateFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = helpers.Db().Update("fluxo", bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": flow})
+	err = helpers.Db().Update("fluxos", bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": flow})
 	if err != nil {
 		w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
 		w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "id"}`))

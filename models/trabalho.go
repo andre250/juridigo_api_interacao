@@ -26,6 +26,7 @@ type Trabalho struct {
 	DataAtualizado     string             `bson:"dataAtualizado,omitempty" json:"dataAtualizado,omitempty"`
 	Localizacao        Localizacao        `bson:"localizacao,omitempty" json:"localizacao,omitempty"`
 	Audiencia          Audiencia          `bson:"audiencia,omitempty" json:"audiencia,omitempty"`
+	Status             string             `bson:"status,omitempty" json:"status,omitempty"`
 }
 
 /*

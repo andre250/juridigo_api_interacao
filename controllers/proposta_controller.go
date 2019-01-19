@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/juridigo/juridigo_api_interacao/helpers"
 	"github.com/juridigo/juridigo_api_interacao/models"
@@ -55,6 +56,7 @@ func updateProposal(w http.ResponseWriter, r *http.Request) {
 
 func getProposalByUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("usuario")
+	status := r.URL.Query().Get("status")
 
 	if id == "" {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
@@ -62,7 +64,26 @@ func getProposalByUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	itens, err := helpers.Db().Find("propostas", bson.M{"usuarioRelacionado": id}, -1)
+	var err error
+	var itens []interface{}
+
+	if status != "" {
+		statusFilter := strings.Split(status, ",")
+
+		var statusQuery []bson.M
+		for _, status := range statusFilter {
+			statusQuery = append(statusQuery, bson.M{"status": status})
+		}
+
+		itens, err = helpers.Db().Find("propostas", bson.M{
+			"usuarioRelacionado": id,
+			"$or":                statusQuery,
+		}, -1)
+
+	} else {
+		itens, err = helpers.Db().Find("propostas", bson.M{"usuarioRelacionado": id}, -1)
+
+	}
 
 	if err != nil {
 		w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
@@ -85,7 +106,8 @@ func createProposal(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(lintErro(err.Error())))
 		return
 	}
-	proposal.Atribuido = true
+	proposal.Atribuido = false
+	proposal.Status = "0"
 	if helpers.Db().Insert("propostas", &proposal) != nil {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
 		w.Write([]byte(lintErro(err.Error())))
