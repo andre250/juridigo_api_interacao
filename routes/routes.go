@@ -15,6 +15,7 @@ Routes - Controlador de rotas do microsserviço
 func Routes() {
 	helpers.APIDisperser("/usuario",
 		models.DefaultAPI{SubPath: "", Handler: controllers.GetUser, Auth: true},
+		models.DefaultAPI{SubPath: "/", Handler: controllers.GetUserInfo, Auth: true},
 	)
 	helpers.APIDisperser("/trabalho",
 		models.DefaultAPI{SubPath: "", Handler: controllers.JobDisperser, Auth: true},

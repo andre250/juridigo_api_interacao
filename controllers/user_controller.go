@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -11,6 +12,32 @@ import (
 	"github.com/juridigo/juridigo_api_interacao/utils"
 	"gopkg.in/mgo.v2/bson"
 )
+
+func GetUserInfo(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("oi")
+	id := strings.Split(r.URL.String(), "usuario/")[1]
+	if id == "" {
+		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+		w.Write([]byte(`{"msg": "Identificador deve ser passado", "erro": "id"}`))
+		return
+	}
+
+	if !bson.IsObjectIdHex(id) {
+		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+		w.Write([]byte(`{"msg": "Identificador possui formato inválido", "erro": "id"}`))
+		return
+	}
+
+	itens, err := helpers.Db().FindOne("usuarios", bson.M{"_id": bson.ObjectIdHex(id)})
+	if err != nil {
+		w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
+		w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "id"}`))
+		return
+	}
+	listItens, _ := bson.MarshalJSON(itens)
+	w.WriteHeader(utils.HTTPStatusCode["OK"])
+	w.Write(listItens)
+}
 
 /*
 GetUser - Função responsável por achar usuario através do parametros
