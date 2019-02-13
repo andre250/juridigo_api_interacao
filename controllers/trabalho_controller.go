@@ -65,16 +65,12 @@ func getJobByUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("usuario")
 	status := r.URL.Query().Get("status")
 
-	if id == "" {
-		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
-		w.Write([]byte(`{"msg": "Identificador deve ser passado", "erro": "id"}`))
-		return
-	}
-
 	var err error
 	var itens []interface{}
+	fmt.Println(id, status)
 
 	if status != "" {
+
 		statusFilter := strings.Split(status, ",")
 
 		var statusQuery []bson.M
@@ -82,13 +78,26 @@ func getJobByUser(w http.ResponseWriter, r *http.Request) {
 			statusQuery = append(statusQuery, bson.M{"status": status})
 		}
 
-		itens, err = helpers.Db().Find("trabalhos", bson.M{
-			"usuarioAtribuido": id,
-			"$or":              statusQuery,
-		}, -1)
+		if id == "" {
+			itens, err = helpers.Db().Find("trabalhos", bson.M{
+				"usuarioAtribuido": "",
+				"$and":             statusQuery,
+			}, -1)
+		} else {
+			itens, err = helpers.Db().Find("trabalhos", bson.M{
+				"usuarioAtribuido": id,
+				"$or":              statusQuery,
+			}, -1)
+		}
 
 	} else {
-		itens, err = helpers.Db().Find("trabalhos", bson.M{"usuarioAtribuido": id}, -1)
+		if id != "" {
+			itens, err = helpers.Db().Find("trabalhos", bson.M{"usuarioAtribuido": id}, -1)
+		} else {
+			w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+			w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "id"}`))
+			return
+		}
 	}
 
 	if err != nil {

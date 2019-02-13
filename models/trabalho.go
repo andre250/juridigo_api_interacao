@@ -14,7 +14,7 @@ type Trabalho struct {
 	TipoTrabalho       string             `bson:"tipoTrabalho,omitempty" json:"tipoTrabalho,omitempty"`
 	CategoriaTrabalho  string             `bson:"categoriaTrabalho,omitempty" json:"categoriaTrabalho,omitempty"`
 	UsuarioResponsável UsuarioResponsavel `bson:"usuarioResponsavel,omitempty" json:"usuarioResponsavel,omitempty"`
-	UsuarioAtribuido   string             `bson:"usuarioAtribuido,omitempty" json:"usuarioAtribuido,omitempty"`
+	UsuarioAtribuido   string             `bson:"usuarioAtribuido" json:"usuarioAtribuido"`
 	Descricao          string             `bson:"descricao,omitempty" json:"descricao,omitempty"`
 	Rotulo             string             `bson:"rotulo,omitempty" json:"rotulo,omitempty"`
 	Prazo              string             `bson:"prazo,omitempty" json:"prazo,omitempty"`
