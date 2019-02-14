@@ -8,7 +8,7 @@ Proposta - modelo estrutral de proposta
 type Proposta struct {
 	ID                 bson.ObjectId `bson:"_id,omitempty" json:"_id,omitempty"`
 	IDTrabalho         string        `bson:"idTrabalho,omitempty" json:"idTrabalho,omitempty"`
-	UsuarioRelacionado string        `bson:"usuarioRelacionado,omitempty" json:"usuarioRelacionado,omitempty"`
+	UsuarioRelacionado string        `bson:"usuarioRelacionado" json:"usuarioRelacionado"`
 	Atribuido          bool          `bson:"atribuido,omitempty" json:"atribuido,omitempty"`
 	TipoTrabalho       string        `bson:"tipoTrabalho,omitempty" json:"tipoTrabalho,omitempty"`
 	CategoriaTrabalho  string        `bson:"categoriaTrabalho,omitempty" json:"categoriaTrabalho,omitempty"`
