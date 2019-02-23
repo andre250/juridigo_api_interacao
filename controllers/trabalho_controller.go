@@ -99,8 +99,9 @@ func AcceptJob(w http.ResponseWriter, r *http.Request) {
 		"status":             0,
 		"valor":              userInfo.Valor,
 		"prazo":              userInfo.Prazo,
-		"Longitude":          userInfo.Longitude,
-		"Latitude":           userInfo.Latitude,
+		"longitude":          userInfo.Longitude,
+		"latitude":           userInfo.Latitude,
+		"rotulo":             userInfo.Rotulo,
 	}) != nil {
 		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
 		w.Write([]byte(lintErro(err.Error())))
