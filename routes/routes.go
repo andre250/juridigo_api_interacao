@@ -20,6 +20,7 @@ func Routes() {
 	helpers.APIDisperser("/trabalho",
 		models.DefaultAPI{SubPath: "", Handler: controllers.JobDisperser, Auth: true},
 		models.DefaultAPI{SubPath: "/", Handler: controllers.GetJob, Auth: true},
+		models.DefaultAPI{SubPath: "/aceite", Handler: controllers.AcceptJob, Auth: true},
 	)
 	helpers.APIDisperser("/proposta",
 		models.DefaultAPI{SubPath: "", Handler: controllers.ProposalDisperser, Auth: true},

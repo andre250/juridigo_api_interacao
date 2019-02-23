@@ -61,6 +61,55 @@ func GetJob(w http.ResponseWriter, r *http.Request) {
 
 }
 
+/*
+AcceptJob - Atualiza trabalho e proposta
+*/
+func AcceptJob(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("trabalho")
+
+	var userInfo models.UserInfo
+	decoder := json.NewDecoder(r.Body)
+	decoder.Decode(&userInfo)
+
+	if id == "" {
+		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+		w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "trabalho"}`))
+		return
+	}
+	if userInfo.UserID == "" {
+		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+		w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "userId"}`))
+		return
+	}
+
+	err := helpers.Db().Update("trabalhos", bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": bson.M{
+		"status":           1,
+		"usuarioAtribuido": userInfo.UserID,
+	}})
+
+	if err != nil {
+		w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
+		w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "id"}`))
+		return
+	}
+
+	if helpers.Db().Insert("propostas", bson.M{
+		"idTrabalho":         id,
+		"usuarioRelacionado": userInfo.UserID,
+		"status":             0,
+		"valor":              userInfo.Valor,
+		"prazo":              userInfo.Prazo,
+		"Longitude":          userInfo.Longitude,
+		"Latitude":           userInfo.Latitude,
+	}) != nil {
+		w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+		w.Write([]byte(lintErro(err.Error())))
+		return
+	}
+	w.WriteHeader(utils.HTTPStatusCode["OK"])
+	w.Write([]byte(`{"msg": "Proposta criada com sucesso"}`))
+}
+
 func getJobByUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("usuario")
 	status := r.URL.Query().Get("status")

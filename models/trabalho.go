@@ -66,3 +66,14 @@ type Audiencia struct {
 	TelefoneResponsavel string   `bson:"telefoneResponsavel,omitempty" json:"telefoneResponsavel,omitempty"`
 	Forum               string   `bson:"forum,omitempty" json:"forum,omitempty"`
 }
+
+/*
+UserInfo - Info user
+*/
+type UserInfo struct {
+	UserID    string  `json:"userId"`
+	Prazo     string  `json:"prazo"`
+	Valor     float64 `json:"valor"`
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+}

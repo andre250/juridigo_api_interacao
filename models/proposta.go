@@ -12,6 +12,7 @@ type Proposta struct {
 	Atribuido          bool          `bson:"atribuido,omitempty" json:"atribuido,omitempty"`
 	TipoTrabalho       string        `bson:"tipoTrabalho,omitempty" json:"tipoTrabalho,omitempty"`
 	CategoriaTrabalho  string        `bson:"categoriaTrabalho,omitempty" json:"categoriaTrabalho,omitempty"`
+	Valor              string        `bson:"valor,omitempty" json:"valor,omitempty"`
 	Empresa            string        `bson:"empresa,omitempty" json:"empresa,omitempty"`
 	Rotulo             string        `bson:"rotulo,omitempty" json:"rotulo,omitempty"`
 	Prazo              string        `bson:"prazo,omitempty" json:"prazo,omitempty"`
