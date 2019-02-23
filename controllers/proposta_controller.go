@@ -70,8 +70,8 @@ func getProposalByUser(w http.ResponseWriter, r *http.Request) {
 
 		if id == "" {
 			itens, err = helpers.Db().Find("propostas", bson.M{
-				"usuarioAtribuido": "",
-				"$and":             statusQuery,
+				"usuarioRelacionado": "",
+				"$and":               statusQuery,
 			}, -1)
 		}
 
@@ -82,7 +82,7 @@ func getProposalByUser(w http.ResponseWriter, r *http.Request) {
 
 	} else {
 		if id != "" {
-			itens, err = helpers.Db().Find("propostas", bson.M{"usuarioAtribuido": id}, -1)
+			itens, err = helpers.Db().Find("propostas", bson.M{"usuarioRelacionado": id}, -1)
 		} else {
 			w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
 			w.Write([]byte(`{"msg": "Identificador não encontrado", "erro": "id"}`))
