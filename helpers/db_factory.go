@@ -86,6 +86,7 @@ func (s *Session) FindOne(collection string, query interface{}) (interface{}, er
 	var result interface{}
 	err := s.Session.DB(configuration.Database.Database).C(collection).Find(query).One(&result)
 	if err != nil {
+		fmt.Println(err)
 		return nil, errors.New("Erro ao consultar banco")
 	}
 	return result, nil

@@ -24,6 +24,7 @@ func Routes() {
 	)
 	helpers.APIDisperser("/proposta",
 		models.DefaultAPI{SubPath: "", Handler: controllers.ProposalDisperser, Auth: true},
+		models.DefaultAPI{SubPath: "/recusa", Handler: controllers.RefuseProposal, Auth: true},
 	)
 	helpers.APIDisperser("/fluxo",
 		models.DefaultAPI{SubPath: "", Handler: controllers.FlowDisperser, Auth: true},

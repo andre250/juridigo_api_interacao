@@ -83,7 +83,7 @@ func AcceptJob(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := helpers.Db().Update("trabalhos", bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": bson.M{
-		"status":           1,
+		"status":           "1",
 		"usuarioAtribuido": userInfo.UserID,
 	}})
 

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -121,4 +122,42 @@ func createProposal(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(utils.HTTPStatusCode["OK"])
 	w.Write([]byte(`{"msg": "Proposta criada com sucesso"}`))
+}
+func RefuseProposal(w http.ResponseWriter, r *http.Request) {
+	proposal := r.URL.Query().Get("proposta")
+	fmt.Println(proposal)
+
+	if proposal != "" {
+		fmt.Println(bson.IsObjectIdHex(proposal))
+		result, err := helpers.Db().FindOne("propostas", bson.M{"_id": bson.ObjectIdHex(proposal)})
+		if err != nil {
+			w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
+		}
+		var proposalItem models.Proposta
+
+		item, _ := json.Marshal(result)
+		json.Unmarshal(item, &proposalItem)
+
+		jobID := proposalItem.IDTrabalho
+
+		err = helpers.Db().Update("trabalhos", bson.M{"_id": bson.ObjectIdHex(jobID)}, bson.M{"$set": bson.M{
+			"status":           "0",
+			"usuarioAtribuido": "",
+		}})
+
+		if err != nil {
+			w.WriteHeader(utils.HTTPStatusCode["INTERNAL_SERVER_ERROR"])
+			w.Write([]byte(`{"msg": "Erro interno"}`))
+			return
+		}
+
+		helpers.Db().Update("propostas", bson.M{"_id": bson.ObjectIdHex(proposal)}, bson.M{"$set": bson.M{
+			"status": "-1",
+		}})
+
+		return
+	}
+
+	w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+	w.Write([]byte(`{"msg": "Proposta é obrigatório"}`))
 }
