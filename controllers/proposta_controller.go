@@ -151,9 +151,18 @@ func RefuseProposal(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		helpers.Db().Update("propostas", bson.M{"_id": bson.ObjectIdHex(proposal)}, bson.M{"$set": bson.M{
+		err = helpers.Db().Update("propostas", bson.M{"_id": bson.ObjectIdHex(proposal)}, bson.M{"$set": bson.M{
 			"status": "-1",
 		}})
+
+		if err != nil {
+			w.WriteHeader(utils.HTTPStatusCode["INTERNAL_SERVER_ERROR"])
+			w.Write([]byte(`{"msg": "Erro interno"}`))
+			return
+		}
+
+		w.WriteHeader(utils.HTTPStatusCode["OK"])
+		w.Write([]byte(`{"msg": "Proposta cancelada com sucesso"}`))
 
 		return
 	}
