@@ -96,7 +96,7 @@ func AcceptJob(w http.ResponseWriter, r *http.Request) {
 	if helpers.Db().Insert("propostas", bson.M{
 		"idTrabalho":         id,
 		"usuarioRelacionado": userInfo.UserID,
-		"status":             0,
+		"status":             "0",
 		"valor":              userInfo.Valor,
 		"prazo":              userInfo.Prazo,
 		"longitude":          userInfo.Longitude,
