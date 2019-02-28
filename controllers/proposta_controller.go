@@ -123,15 +123,69 @@ func createProposal(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(utils.HTTPStatusCode["OK"])
 	w.Write([]byte(`{"msg": "Proposta criada com sucesso"}`))
 }
+
+func UpdateProposalByStatus(w http.ResponseWriter, r *http.Request) {
+	proposal := r.URL.Query().Get("proposta")
+
+	if proposal != "" {
+		result, err := helpers.Db().FindOne("propostas", bson.M{
+			"_id": bson.ObjectIdHex(proposal),
+		})
+
+		if err != nil {
+			w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
+			w.Write([]byte(`{"msg": "Proposta não encontrada"}`))
+			return
+		}
+
+		var proposalItem models.Proposta
+		var finalStatus string
+
+		item, _ := json.Marshal(result)
+		json.Unmarshal(item, &proposalItem)
+
+		switch proposalItem.Status {
+		case "0":
+			finalStatus = "1"
+		case "1":
+			finalStatus = "2"
+		case "2":
+			finalStatus = "3"
+		default:
+			w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+			w.Write([]byte(`{"msg": "Proposta aguardando pagamento"}`))
+			return
+		}
+
+		err = helpers.Db().Update("propostas", bson.M{"_id": bson.ObjectIdHex(proposal)}, bson.M{"$set": bson.M{
+			"status": finalStatus,
+		}})
+
+		if err != nil {
+			w.WriteHeader(utils.HTTPStatusCode["INTERNAL_SERVER_ERROR"])
+			w.Write([]byte(`{"msg": "Erro interno"}`))
+			return
+		}
+
+		w.WriteHeader(utils.HTTPStatusCode["OK"])
+		w.Write([]byte(`{"msg": "Proposta atualizada com sucesso"}`))
+		return
+
+	}
+
+	w.WriteHeader(utils.HTTPStatusCode["BAD_REQUEST"])
+	w.Write([]byte(`{"msg": "Proposta é obrigatório"}`))
+}
+
 func RefuseProposal(w http.ResponseWriter, r *http.Request) {
 	proposal := r.URL.Query().Get("proposta")
 	fmt.Println(proposal)
 
 	if proposal != "" {
-		fmt.Println(bson.IsObjectIdHex(proposal))
 		result, err := helpers.Db().FindOne("propostas", bson.M{"_id": bson.ObjectIdHex(proposal)})
 		if err != nil {
 			w.WriteHeader(utils.HTTPStatusCode["NOT_FOUND"])
+			w.Write([]byte(`{"msg": "Proposta não encontrada"}`))
 		}
 		var proposalItem models.Proposta
 

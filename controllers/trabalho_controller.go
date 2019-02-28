@@ -117,7 +117,6 @@ func getJobByUser(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 	var itens []interface{}
-	fmt.Println(id, status)
 
 	if status != "" {
 
